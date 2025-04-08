@@ -5,5 +5,5 @@
  * @returns {Object} object - Object
  */
 export const lambdaHandler = async (event, context) => {
-    return { 'success': true }
+    return { 'success': true };
 };
