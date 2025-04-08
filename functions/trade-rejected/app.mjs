@@ -5,5 +5,6 @@
  * @returns {Object} object - Object
  */
 export const lambdaHandler = async (event, context) => {
-    return { 'success': true };
+    console.log("Trade was rejected!");
+    return { 'success': false };
 };
