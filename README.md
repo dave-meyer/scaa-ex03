@@ -1,5 +1,9 @@
 # scaa-ex03
 
+The following is the default description for a AWS Step Functions application.
+
+---
+
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders:
 
 - functions - Code for the application's Lambda functions to check the value of, buy, or sell shares of a stock.

@@ -5,6 +5,7 @@
  * @returns {Object} object - Object
  */
 export const lambdaHandler = async (event, context) => {
-    const isRejected = Math.random() > 0.5;
-    return { 'rejected': isRejected };
+    const random = Math.random();
+    const isRejected = random > 0.5;
+    return { 'rejected': isRejected, 'random': random };
 };

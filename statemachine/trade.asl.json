@@ -67,7 +67,7 @@
             "Choices": [
                 {
                     "Variable": "$.rejected",
-                    "IsBoolean": true,
+                    "BooleanEquals": true,
                     "Next": "Trade Rejected"
                 }
             ],
@@ -93,7 +93,7 @@
             "Choices": [
                 {
                     "Variable": "$.denied",
-                    "IsBoolean": true,
+                    "BooleanEquals": true,
                     "Next": "Rejecting Trade"
                 }
             ],
