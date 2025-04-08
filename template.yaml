@@ -1,0 +1,126 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  scaa-ex03
+
+  Sample SAM Template for scaa-ex03
+Resources:
+  ScaaEx03TradingStateMachine:
+    Type: AWS::Serverless::StateMachine # More info about State Machine Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-statemachine.html
+    Properties:
+      DefinitionUri: statemachine/trade.asl.json
+      DefinitionSubstitutions:
+        AddDailyRewardFunctionArn: !GetAtt AddDailyRewardFunction.Arn
+        CheckTradeFunctionArn: !GetAtt CheckTradeFunction.Arn
+        InitiateTradeFunctionArn: !GetAtt InitiateTradeFunction.Arn
+        RejectTradeFunctionArn: !GetAtt RejectTradeFunction.Arn
+        TradeOkFunctionArn: !GetAtt TradeOkFunction.Arn
+        TradeRejectedFunctionArn: !GetAtt TradeRejectedFunction.Arn
+        UpdateBalanceFunctionArn: !GetAtt UpdateBalanceFunction.Arn
+        VerifyingUserFunctionArn: !GetAtt VerifyingUserFunction.Arn
+      Policies: # Find out more about SAM policy templates: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-policy-templates.html
+      - LambdaInvokePolicy:
+          FunctionName: !Ref AddDailyRewardFunction
+      - LambdaInvokePolicy:
+          FunctionName: !Ref CheckTradeFunction
+      - LambdaInvokePolicy:
+          FunctionName: !Ref InitiateTradeFunction
+      - LambdaInvokePolicy:
+          FunctionName: !Ref RejectTradeFunction
+      - LambdaInvokePolicy:
+          FunctionName: !Ref TradeOkFunction
+      - LambdaInvokePolicy:
+          FunctionName: !Ref TradeRejectedFunction
+      - LambdaInvokePolicy:
+          FunctionName: !Ref UpdateBalanceFunction
+      - LambdaInvokePolicy:
+          FunctionName: !Ref VerifyingUserFunction
+
+  AddDailyRewardFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/add-daily-reward/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+
+  CheckTradeFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/check-trade/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+
+  InitiateTradeFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/initiate-trade/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+
+  RejectTradeFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/reject-trade/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+
+  TradeOkFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/trade-ok/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+
+  TradeRejectedFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/trade-rejected/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+
+  UpdateBalanceFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/update-balance/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+        - x86_64
+
+  VerifyingUserFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-function.html
+    Properties:
+      CodeUri: functions/verify-user/
+      Handler: app.lambdaHandler
+      Runtime: nodejs18.x
+      Architectures:
+      - x86_64
+
+Outputs:
+  # Find out more about other implicit resources you can reference within SAM
+  # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-specification-generated-resources.html
+  ScaaEx03TradingStateMachineArn:
+    Description: Trading state machine ARN
+    Value: !Ref ScaaEx03TradingStateMachine
+  ScaaEx03TradingStateMachineRole:
+    Description: IAM Role created for Trading state machine based on the specified
+      SAM Policy Templates
+    Value: !GetAtt ScaaEx03TradingStateMachineRole.Arn
+# # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Tracing: Active
+  Api:
+    TracingEnabled: true

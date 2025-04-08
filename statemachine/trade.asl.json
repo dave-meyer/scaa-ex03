@@ -1,0 +1,148 @@
+{
+    "Comment": "A state machine that does mock trading.",
+    "StartAt": "Verifying User",
+    "States": {
+        "Verifying User": {
+            "Type": "Task",
+            "Resource": "${VerifyingUserFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 15,
+                    "MaxAttempts": 5,
+                    "BackoffRate": 1.5
+                }
+            ],
+            "Next": "Add Daily Reward"
+        },
+        "Add Daily Reward": {
+            "Type": "Task",
+            "Resource": "${AddDailyRewardFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1
+                }
+            ],
+            "Next": "Initiate Trade"
+        },
+        "Initiate Trade": {
+            "Type": "Task",
+            "Resource": "${InitiateTradeFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1
+                }
+            ],
+            "Next": "Checking Trade"
+        },
+        "Checking Trade": {
+            "Type": "Task",
+            "Resource": "${CheckTradeFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1
+                }
+            ],
+            "Next": "Trade denied?"
+        },
+        "Trade denied?": {
+            "Type": "Choice",
+            "Choices": [
+                {
+                    "Variable": "$.rejected",
+                    "IsBoolean": true,
+                    "Next": "Trade Rejected"
+                }
+            ],
+            "Default": "Updating Balance"
+        },
+        "Updating Balance": {
+            "Type": "Task",
+            "Resource": "${UpdateBalanceFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1
+                }
+            ],
+            "Next": "Update denied?"
+        },
+        "Update denied?": {
+            "Type": "Choice",
+            "Choices": [
+                {
+                    "Variable": "$.denied",
+                    "IsBoolean": true,
+                    "Next": "Rejecting Trade"
+                }
+            ],
+            "Default": "Trade Ok"
+        },
+        "Trade Ok": {
+            "Type": "Task",
+            "Resource": "${TradeOkFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1
+                }
+            ],
+            "End": true
+        },
+        "Rejecting Trade": {
+            "Type": "Task",
+            "Resource": "${RejectTradeFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1
+                }
+            ],
+            "Next": "Trade Rejected"
+        },
+        "Trade Rejected": {
+            "Type": "Task",
+            "Resource": "${TradeRejectedFunctionArn}",
+            "Retry": [
+                {
+                    "ErrorEquals": [
+                        "States.TaskFailed"
+                    ],
+                    "IntervalSeconds": 2,
+                    "MaxAttempts": 3,
+                    "BackoffRate": 1
+                }
+            ],
+            "End": true
+        }
+    }
+}
