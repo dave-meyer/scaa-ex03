@@ -6,6 +6,6 @@
  */
 export const lambdaHandler = async (event, context) => {
     const random = Math.random();
-    const isRejected = random > 0.5;
+    const isRejected = random > 0.75;
     return { 'rejected': isRejected, 'random': random };
 };
