@@ -2,6 +2,12 @@
 
 The following is the default description for a AWS Step Functions application.
 
+Step Function executions:
+
+![case1](./doc/StepFunctions_Execution_Case1.png)
+![case2](./doc/StepFunctions_Execution_Case2.png)
+![case3](./doc/StepFunctions_Execution_Case3.png)
+
 ---
 
 This project contains source code and supporting files for a serverless application that you can deploy with the SAM CLI. It includes the following files and folders:
