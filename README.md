@@ -2,7 +2,10 @@
 
 The following is the default description for a AWS Step Functions application.
 
-Step Function executions:
+UML Diagram of our workflow:
+![uml](./doc/UML.png)
+
+Step Function diagram and executions:
 
 ![case1](./doc/StepFunctions_Execution_Case1.png)
 ![case2](./doc/StepFunctions_Execution_Case2.png)
