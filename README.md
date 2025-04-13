@@ -1,6 +1,6 @@
 # scaa-ex03
 
-The following is the default description for a AWS Step Functions application.
+The following is the default description for an AWS Step Functions application.
 
 UML Diagram of our workflow:
 ![uml](./doc/UML.png)
